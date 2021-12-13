@@ -6,3 +6,11 @@
     grid-template-columns: auto;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
+
+.fetch-error {
+    position: absolute;
+    color: red;
+    font-weight: 600;
+    font-size: 36px;
+    font-family: 'Ubuntu';
+}

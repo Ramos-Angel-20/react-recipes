@@ -22,9 +22,10 @@ const FoodList = props => {
         setCurrentTitle(null);
     }
 
-    let food = <p>No Food retrieved</p>;
+    let food;
 
-    if (props.list && props.list.length > 0) {
+    if (Array.isArray(props.list) && !props.fetchError) {
+        console.log(props.list);
         food = props.list.map(item =>
             <FoodCard 
                 key={item.id} 
@@ -34,6 +35,9 @@ const FoodList = props => {
                 getRecipeFn={openModalHandler}
             />
         );
+
+    } else {
+        food = <p className={styles['fetch-error']}>{props.fetchError}</p>;
     }
 
     return (

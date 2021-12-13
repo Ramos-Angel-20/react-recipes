@@ -6,44 +6,29 @@ import SearchBar from './Components/SearchBar/SearchBar';
 import FoodList from './Components/FoodList/FoodList';
 import Loader from './Components/UI/Loader';
 import ErrorModal from './Components/ErrorModal/ErrorModal';
-
-import { getFoodList } from './Services/apiService';
+import useFoodList from './hooks/use-recipes';
 
 const App = () => {
-  const [foodList, setFoodList] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
+  const { fetchList, list, pending, error: fetchError } = useFoodList();
 
   const closeErrorModal = () => {
     setError();
-    loadFoodList('');
-  }
-
-  const loadFoodList = query => {
-    setLoading(true);
-    getFoodList(query)
-      .then(data => {
-        setFoodList(data.results);
-        if (data.results < 1) {
-          setError({message: 'Theres no results for this query'})
-        }
-        setLoading(false);
-      })
-      .catch(err => console.log(err));
+    fetchList('');
   }
 
   useEffect(() => {
-    loadFoodList('');
-  }, []);
+    fetchList('');
+  }, [fetchList]);
 
   return (
     <div className="App">
       <header>
         <h1>Recipes o' Plenty</h1>
       </header>
-      <SearchBar searchFn={loadFoodList} />
+      <SearchBar searchFn={fetchList} />
       {
-        loading ? <Loader color='white'/> : <FoodList list={foodList}/> 
+        pending ? <Loader color='white'/> : <FoodList list={list} fetchError={fetchError}/> 
       }
       {error && <ErrorModal closeFn={closeErrorModal} errorMessage={error}/>}
     </div>

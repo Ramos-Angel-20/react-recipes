@@ -12,7 +12,9 @@ const Backdrop = props => <div className={styles.backdrop} style={{ display: pro
 
 // Recipe Modal component.
 const RecipeModalOverlay = props => {
+
     let recipeSteps;
+    
     const [recipe, setRecipe] = useState([]);
     const [loadError, setLoadError] = useState('');
     const [isLoading, setIsLoading] = useState(true);
